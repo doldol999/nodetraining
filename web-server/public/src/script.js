@@ -1,0 +1,1 @@
+alert('Weather app coming soon!');
