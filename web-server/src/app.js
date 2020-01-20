@@ -21,13 +21,15 @@ app.get('',(req,res)=>{
     res.render('index',{
         title: 'Weather App',
         author: 'Mark Anthony',
+        favico: '/assets/weather.png'
     });
 });
 app.get('/about',(req,res)=>{
     res.render('about',{
         title: 'About',
         author: 'Mark Anthony',
-        src: '/assets/me.jpg'
+        src: '/assets/me.jpg',
+        favico: '/assets/weather.png'
     });
 });
 
@@ -35,7 +37,8 @@ app.get('/help',(req,res)=>{
     res.render('help',{
         title: 'Help',
         author: 'Mark Anthony',
-        message: 'This is a static message.'
+        message: 'This is a static message.',
+        favico: '/assets/weather.png'
     });
 });
 
@@ -49,7 +52,8 @@ app.get('/help/*', (req,res) => {
     res.render('error',{
         title: 'ERROR 404',
         author: 'Mark Anthony',
-        errorMessage: 'Help Article Not Found!'
+        errorMessage: 'Help Article Not Found!',
+        favico: '/assets/weather.png'
     });
 });
 
@@ -58,7 +62,8 @@ app.get('*', (req,res) => {
     res.render('error',{
         title: 'ERROR 404',
         author: 'Mark Anthony',
-        errorMessage: 'Page Not Found!'
+        errorMessage: 'Page Not Found!',
+        favico: '/assets/weather.png'
     });
 });
 
