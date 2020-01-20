@@ -1,7 +1,7 @@
 const geocode = require('./utils/geocode.js');
 const forecast = require('./utils/forecast.js');
-const express = require('express');
-const app = express();
+// const express = require('express');
+// const app = express();
 
 const getForecastWithGeocoding = (address,callback) => {
     if (!address){ return console.log('No address provided!') }
@@ -20,21 +20,21 @@ const getForecastWithGeocoding = (address,callback) => {
     })
 }
 
-// getForecastWithGeocoding(process.argv[2],(err,res)=>{
-//     const {location,forecastSummary} = res;
-//     if(err){ return console.log('Error: ',err) }
-//     console.log(`${location.location}\n${forecastSummary}`);
-// });
-
-app.get('',(req,res)=>{
-    getForecastWithGeocoding(process.argv[2],(err,ress)=>{
-        const {location,forecastSummary} = ress;
-        if(err){ return console.log('Error: ',err) }
-        // console.log(`${location.location}\n${forecastSummary}`);
-        res.send(ress)
-    });
+getForecastWithGeocoding(process.argv[2],(err,res)=>{
+    const {location,forecastSummary} = res;
+    if(err){ return console.log('Error: ',err) }
+    console.log(`${location.location}\n${forecastSummary}`);
 });
 
-app.listen(3000,()=>{
-    console.log('Weather app is live on port 3000.');
-})
+// app.get('',(req,res)=>{
+//     getForecastWithGeocoding(process.argv[2],(err,ress)=>{
+//         const {location,forecastSummary} = ress;
+//         if(err){ return console.log('Error: ',err) }
+//         // console.log(`${location.location}\n${forecastSummary}`);
+//         res.send(ress)
+//     });
+// });
+
+// app.listen(3000,()=>{
+//     console.log('Weather app is live on port 3000.');
+// })

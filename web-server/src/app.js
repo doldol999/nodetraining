@@ -1,6 +1,8 @@
 const express = require('express');
 const path = require('path');
 const hbs = require('hbs');
+const forecast = require('../src/utils/forecast');
+const geocode = require('../src/utils/geocode');
 
 const app = express() //creates express app
 
@@ -24,6 +26,7 @@ app.get('',(req,res)=>{
         favico: '/assets/weather.png'
     });
 });
+
 app.get('/about',(req,res)=>{
     res.render('about',{
         title: 'About',
@@ -42,8 +45,47 @@ app.get('/help',(req,res)=>{
     });
 });
 
+const getForecastWithGeocoding = (address,callback) => {
+    if (!address){ return console.log('No address provided!'); }
+    geocode(address,(err,response = {}) => {
+        if(err){ return callback(err,undefined); }
+        const {latitude,longitude} = response;
+        forecast(latitude, longitude, (error, data) => {
+            if(error){ return callback(error,undefined); }
+            const {summary,temperature,precipProbability} = data;
+            callback(undefined,{ 
+                location: response, 
+                forecastData: data, 
+                forecastSummary: `${summary} It is currently ${temperature} degrees out. There is a ${precipProbability}% chance of rain.`
+            });
+        })
+    })
+}
+
 app.get('/weather',(req,res) => {
-    res.send({data:'data'});
+    if(!req.query.address){ 
+        return res.send({ error: 'You must provide an address.' });
+    }
+
+    getForecastWithGeocoding(req.query.address,(err,response = {})=>{
+        if(err){ return res.send({error: err}) }
+        
+        const {location,forecastSummary} = response;
+        res.send({
+            address: req.query.address,
+            location: location.location,
+            forecast: forecastSummary
+        });
+    });
+});
+
+app.get('/products',(req,res) => {
+    if(!req.query.search){ 
+        return res.send({ error: 'You must provide a search term.' });
+    }
+    res.send({
+        products: []
+    });
 });
 
 // display a specific 404 for /page-name/ sub-pages
