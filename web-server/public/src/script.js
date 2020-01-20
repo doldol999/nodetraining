@@ -1,1 +1,1 @@
-alert('Weather app coming soon!');
+console.log('Weather app coming soon!');
