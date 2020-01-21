@@ -6,14 +6,23 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{{title}}</title>
     <link rel="stylesheet" href="/style/style.css" />
-    <script src="/src/script.js"></script>
     <link rel="shortcut icon" href="{{favico}}" type="image/x-icon">
 </head>
 <body>
     <div class="main-content">
         {{>header}}
         <p>Us this to get your weather!</p>
+        <form action="">
+            <input placeholder="Location">
+            <button>Search</button>
+        </form>
+        <p id="error-message"></p>
+        <div id="forecast-result">
+            <h3></h3>
+            <p></p>
+        </div>
     </div>
     {{>footer}}
+    <script src="/src/script.js"></script>
 </body>
 </html>
