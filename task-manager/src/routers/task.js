@@ -37,7 +37,12 @@ router.patch('/tasks/:id', async (request,response) => {
     if(!isValidOperation){ return response.status(404).send({error: 'Invalid operators'}) }
 
     try {
-        const task = await Task.findByIdAndUpdate(_id, request.body, { new:true,runValidators:true });
+        // const task = await Task.findByIdAndUpdate(_id, request.body, { new:true,runValidators:true });
+        const newUpdates = request.body;
+        const task = await Task.findById(_id);
+        updates.forEach(update => task[update] = newUpdates[update]);
+        task.save();
+
         if(!task){ return response.status(404).send() }
         response.status(200).send(task);
     }catch(e){ response.status(400).send(e) }
