@@ -21,6 +21,7 @@ router.post('/users/login', async (request,response) => {
     }catch(e){ response.status(400).send(e) }
 });
 
+// logout user from current device - delete current token
 router.post('/users/logout', auth, async (request,response) => {
     try{
         request.user.tokens = request.user.tokens.filter(token => token.token !== request.token)
@@ -29,6 +30,7 @@ router.post('/users/logout', auth, async (request,response) => {
     }catch(e){ response.status(500).send() }
 });
 
+//logout user from all devices - delete all tokens
 router.post('/users/logout-all', auth, async (request,response) => {
     try{
         request.user.tokens = [];

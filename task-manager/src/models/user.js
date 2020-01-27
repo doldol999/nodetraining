@@ -44,6 +44,12 @@ const userSchema = new mongoose.Schema({
     }]
 });
 
+userSchema.virtual('tasks',{
+    ref: 'Task',
+    localField: '_id',
+    foreignField: 'owner'
+});
+
 // Adding a static function to our model User
 // Static methods are accessible on the Model
 userSchema.statics.findByCredentials = async (email,password) => {
