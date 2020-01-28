@@ -1,12 +1,23 @@
 const sgMail = require('@sendgrid/mail');
-const sendGridAPIKey = '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';
+const sendGridAPIKey = process.env.SENDGRID_API_KEY;
 sgMail.setApiKey(sendGridAPIKey);
 
-const msg = {
-  to: 'lumbao.mark@xtendops.com',
-  from: 'lumbao.mark@xtendops.com',
-  subject: 'Sending with Twilio SendGrid is Fun',
-  text: 'and easy to do anywhere, even with Node.js',
-  html: '<strong>and easy to do anywhere, even with Node.js</strong>',
-};
-sgMail.send(msg);
+const sendWelcomeEmail = (email,name) => {
+  sgMail.send({
+    to: email,
+    from: 'markanthonylumbao@gmail.com',
+    subject: 'Thanks for joining in!',
+    text: `Welcome to the app, ${name}. Let me know once you receive this message.`
+  });
+}
+
+const sendCancelationEmail = (email,name) => {
+  sgMail.send({
+    to: email,
+    from: 'markanthonylumbao@gmail.com',
+    subject: `So long and Goodbye ${name}!`,
+    text: `We are sad to know that you're leaving the app, ${name}. Let us know what we can improve from our system.`
+  });
+}
+
+module.exports = { sendWelcomeEmail,sendCancelationEmail };
