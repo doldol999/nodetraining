@@ -1,8 +1,9 @@
 const express = require('express');
+const multer = require('multer');
+const sharp = require('sharp');
 const User = require('../models/user');
 const router = express.Router();
 const auth = require('../middleware/auth');
-const multer = require('multer');
 
 router.post('/users', async (request,response)=>{
     const user = new User(request.body);
@@ -69,7 +70,7 @@ router.delete('/users/me', auth, async (request,response) => {
 });
 
 const upload = multer({
-    dest: 'avatars',
+    // dest: 'avatars', //--only if you need to store files to the file system
     limits: {
         fileSize: 1000000 //limits file upload size to 1 mb
     },
@@ -80,9 +81,34 @@ const upload = multer({
         callback(undefined,true);
     }
 });
-
-router.post('/users/me/avatar', upload.single('avatar'), (request,response)=>{
+const errorHandler = (error,request,response,next) => {
+    if(error){
+        response.status(400).send({error: error.message});
+    }
+}
+router.post('/users/me/avatar', auth, upload.single('avatar'), async (request,response)=>{
+    const buffer = await sharp(request.file.buffer).resize({ width:250, height:250 }).png().toBuffer();
+    request.user.avatar = buffer;
+    await request.user.save();
     response.send();
+},errorHandler);
+
+router.delete('/users/me/avatar', auth, async (request,response) => {
+    request.user.avatar = undefined;
+    await request.user.save();
+    response.status(200).send(request.user);
+},errorHandler);
+
+router.get('/users/:id/avatar', async (request,response) => {
+    try {
+        // const avatar = request.user.avatar;
+        const user = await User.findById(request.params.id);
+        
+        if(!user || !user.avatar){ throw new Error(); }
+
+        response.set('Content-Type','image/png');
+        response.send(user.avatar);
+    } catch (error) { response.status(404).send() }
 });
 
 module.exports = router;
