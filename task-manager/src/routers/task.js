@@ -77,7 +77,7 @@ router.patch('/tasks/:id', auth, async (request,response) => {
         task.save();
 
         response.status(200).send(task);
-    }catch(e){ response.status(400).send(e) }
+    }catch(e){ response.status(404).send(e) }
 });
 
 router.delete('/tasks/:id', auth, async (request,response) => {
@@ -90,7 +90,7 @@ router.delete('/tasks/:id', auth, async (request,response) => {
         await task.remove();
 
         response.status(200).send(task);
-    }catch(e){ response.status(400).send(e) }
+    }catch(e){ response.status(404).send(e) }
 });
 
 module.exports = router;

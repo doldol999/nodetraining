@@ -70,7 +70,7 @@ router.delete('/users/me', auth, async (request,response) => {
         const {email,name} = request.user;
         sendCancelationEmail(email,name);
         response.status(200).send(request.user);
-    }catch(e){ response.status(400).send(e) }
+    }catch(e){ response.status(401).send(e) }
 });
 
 const upload = multer({
