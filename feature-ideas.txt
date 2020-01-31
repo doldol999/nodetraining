@@ -1,0 +1,12 @@
+Weather App: 
+Allow user to use geolocation API to get weather for their location
+
+TODO App:
+Allow users to upload images for individual todos 
+
+Chat App:
+Let uses pick from list of active rooms or type in custom room name
+
+NOTE: What I could Learn next
+* https://www.udemy.com/user/andrewmead/
+* GraphQL for Back-end & React for Front-End
